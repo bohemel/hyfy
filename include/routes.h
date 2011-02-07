@@ -4,6 +4,7 @@
 struct route {
 	char *request_string;
 	enum RouteType {RT_STATIC, RT_DYNAMIC} type;
+	char *content_type;
 	char *static_content_source;
 	char *static_content;
 	void *callback;

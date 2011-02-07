@@ -1,1 +1,3 @@
-alert('Tko');
+$(function() {
+	alert('jQuery up and running!');
+});

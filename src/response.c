@@ -9,30 +9,26 @@
 #include "response.h"
 #include "request.h"
 
-const int MAX_OUTBUFFER_SIZE = 1024; // 1K of headerbuffer
+#define MAX_OUTBUFFER_SIZE 1024 // 1K of headerbuffer
+#define SERVER_NAME "Born to be wild 0.1"
 
-void http_response_send(const char *resp_code, struct http_request *request, const char *body) {
+void http_response_send(const char *resp_code, const char* content_type, struct http_request *request, const char *body) {
 	char header_buffer[MAX_OUTBUFFER_SIZE];
-	header_buffer[0] = 0;	
-
 	int body_len = strlen(body);
 
 	// build http response
- 	strcat(header_buffer, "HTTP/1.0 ");
-	strcat(header_buffer, resp_code);
-	strcat(header_buffer, "\r\n");
+	sprintf(header_buffer, "HTTP/1.0 %s\r\n", resp_code);
 
 	// append headers
-	strcat(header_buffer, "Content-Type: text/html\r\n");
-	
-
+	sprintf(&header_buffer[strlen(header_buffer)], "Server: %s\r\n", SERVER_NAME);
+	sprintf(&header_buffer[strlen(header_buffer)], "Content-Type: %s\r\n", content_type);
+	sprintf(&header_buffer[strlen(header_buffer)], "Content-Length: %d\r\n", body_len);
+		
 	// append extra crlf to indicate start of body
 	strcat(header_buffer, "\r\n");
-
 	
 	write(request->socket_fd, header_buffer, strlen(header_buffer));
 	write(request->socket_fd, body, body_len);
-
 
 	return;
 }

@@ -53,7 +53,7 @@ void dispatch_request(int socket_fd) {
 		if(active_route->type == RT_STATIC) {
 			hyfy_log("Found static route:");
 			hyfy_log(active_route->static_content_source);
-			http_response_send("200 OK", &request, active_route->static_content);
+			http_response_send("200 OK", active_route->content_type, &request, active_route->static_content);
 		}
 		else {
 			printf("Could not handle matching route!");

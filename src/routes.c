@@ -6,12 +6,13 @@
 #include "routes.h"
 
 struct route routes[] = { 
-	{"/", 		RT_STATIC, "resources/html/index.html", NULL, NULL}, 
-	{"/index.html", RT_STATIC, "resources/html/index.html", NULL, NULL}, 
-	{"/hyfy.js", 	RT_STATIC, "resources/js/hyfy.js", NULL, NULL}
+	{"/", 		RT_STATIC, "text/html", 	"resources/html/index.html", NULL, NULL}, 
+	{"/index.html", RT_STATIC, "text/html", 	"resources/html/index.html", NULL, NULL}, 
+	{"/hyfy.js", 	RT_STATIC, "text/javascript", 	"resources/js/hyfy.js", NULL, NULL},
+	{"/jquery.js", 	RT_STATIC, "text/javascript", 	"resources/js/jquery-1.5.min.js", NULL, NULL}
 };
 
-const int NO_OF_ROUTES = 3;
+const int NO_OF_ROUTES = 4;
 
 void routes_init() {
 
