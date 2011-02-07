@@ -1,2 +1,3 @@
 target 		hyfy
 sourcedir	src
+cflags		std=c99 Iinclude Wall pedantic
