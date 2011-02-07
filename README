@@ -1,1 +1,8 @@
-hyfy
+hyfy is (or hopefully will be) a collaborative spotify client controlled via a web interfce.
+
+This is as most things are for my own amusement and for me to play around with C (i mainly work with
+web programming in PHP/JavaScript).
+
+Code licensed under GPLv3
+
+I use spank by noname for building hyfy check it out at http://hultinedutainment.se/~noname/?section=spank
