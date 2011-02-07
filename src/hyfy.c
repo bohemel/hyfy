@@ -55,6 +55,10 @@ void dispatch_request(int socket_fd) {
 			printf("Log: Found static route %s\n", active_route->static_content_source);
 			http_response_send("200 OK", active_route->content_type, &request, active_route->static_content);
 		}
+		if(active_route->type == RT_DYNAMIC) {
+			printf("Log: Found dynamic route %s\n", active_route->static_content_source);
+			(*active_route->callback)(&request);
+		}
 		else {
 			printf("Warning: Request method not implemented\n");
 			http_response_send("503 Not Implemented", "text/plain", &request, "Method not implemented");

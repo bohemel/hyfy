@@ -1,13 +1,15 @@
 #ifndef _ROUTES_H_
 #define _ROUTES_H_
 
+#include "request.h"
+
 struct route {
 	char *request_string;
 	enum RouteType {RT_STATIC, RT_DYNAMIC} type;
 	char *content_type;
 	char *static_content_source;
 	char *static_content;
-	void *callback;
+	void (*callback)(struct http_request*);
 };
 
 void routes_init();

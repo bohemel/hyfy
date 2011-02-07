@@ -5,14 +5,17 @@
 #include "hyfy.h"
 #include "routes.h"
 
+#include "api.h"
+
 struct route routes[] = { 
 	{"/", 		RT_STATIC, "text/html", 	"resources/html/index.html", NULL, NULL}, 
 	{"/index.html", RT_STATIC, "text/html", 	"resources/html/index.html", NULL, NULL}, 
 	{"/hyfy.js", 	RT_STATIC, "text/javascript", 	"resources/js/hyfy.js", NULL, NULL},
-	{"/jquery.js", 	RT_STATIC, "text/javascript", 	"resources/js/jquery-1.5.min.js", NULL, NULL}
+	{"/jquery.js", 	RT_STATIC, "text/javascript", 	"resources/js/jquery-1.5.min.js", NULL, NULL},
+	{"/api/echo", 	RT_DYNAMIC,"application/json", 	NULL, NULL, &api_test}
 };
 
-const int NO_OF_ROUTES = 4;
+const int NO_OF_ROUTES = 5;
 
 void routes_init() {
 	printf("Log: Loading files into memory\n");
@@ -47,6 +50,7 @@ int routes_load_static_file(const char *filename, char **result) {
 
 int routes_match(struct http_request* request, struct route **active_route) {
 	for(int i = 0; i < NO_OF_ROUTES; i++) {
+//		printf("Comparing \"%s\" with \"%s\"\n", request->request_path, routes[i].request_string);
 		if(strcmp(request->request_path, routes[i].request_string) == 0) {
 			*active_route = &routes[i];
 			return 1;
