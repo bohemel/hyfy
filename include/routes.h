@@ -7,11 +7,10 @@ struct route {
 	char *static_content_source;
 	char *static_content;
 	void *callback;
-}; 
+};
 
 void routes_init();
 int routes_match(struct http_request*, struct route**);
 int routes_load_static_file(const char*, char**);
 
 #endif
-
