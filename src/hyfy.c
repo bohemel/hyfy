@@ -40,23 +40,24 @@ void dispatch_request(int socket_fd) {
 	else buffer[0]=0;
 
 	if(parse_http_request(buffer, &request) == 0) {
-		hyfy_error("Could not parse incomming request");
+		printf("Warning: Could not parse incomming request dumping headers!\n");
+		printf("%s", buffer);
+		http_response_send("400 Bad Request", "text/plain", &request, "Could not parse HTTP headers");
 	}
 
 	struct route *active_route;
 	if(routes_match(&request, &active_route) == 0) {
-	//	http_response_404(request);
-		sprintf(buffer,"HTTP/1.0 404 Not Found\r\nServer: Born to be wild 0.1\r\nContent-Type: text/plain\r\n\r\nResource not found... Sorry dude.. real sorry...");
-		write(socket_fd,buffer,strlen(buffer));
+		printf("Warning: 404 on %s\n", request.request_path);
+		http_response_send("404 Not Found", "text/plain", &request, "Resource not found");
 	}
 	else {
 		if(active_route->type == RT_STATIC) {
-			hyfy_log("Found static route:");
-			hyfy_log(active_route->static_content_source);
+			printf("Log: Found static route %s\n", active_route->static_content_source);
 			http_response_send("200 OK", active_route->content_type, &request, active_route->static_content);
 		}
 		else {
-			printf("Could not handle matching route!");
+			printf("Warning: Request method not implemented\n");
+			http_response_send("503 Not Implemented", "text/plain", &request, "Method not implemented");
 		}
 	}
 	destroy_request(&request);
@@ -68,7 +69,6 @@ void destroy_request(struct http_request *request) {
 
 int main() {
 
-	printf("hyfy now online on port 8080 \n");
 
 	// load routes 
 	routes_init();
@@ -86,6 +86,8 @@ int main() {
 
 	if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
 		hyfy_error("ERROR on binding");
+
+	printf("hyfy now online on port 8080 \n");
 
 	listen(sockfd,5);
 

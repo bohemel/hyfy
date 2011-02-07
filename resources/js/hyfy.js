@@ -1,3 +1,3 @@
 $(function() {
-	alert('jQuery up and running!');
+	$('p').append(', dude!');
 });

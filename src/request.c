@@ -12,7 +12,7 @@ int parse_http_request(char *headers, struct http_request *request) {
 			if(strncmp((char*)&headers[i], " ", 1) == 0) {
 				// terminate buffer
 				request->request_path[i-4] = 0;	
-				printf("Found path: %s\n", request->request_path);
+				printf("Log: Found path \"%s\"\n", request->request_path);
 				break;
 			}
 			request->request_path[i-4] = headers[i];

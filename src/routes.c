@@ -15,11 +15,9 @@ struct route routes[] = {
 const int NO_OF_ROUTES = 4;
 
 void routes_init() {
-
+	printf("Log: Loading files into memory\n");
 	for(int i = 0; i < NO_OF_ROUTES; i++) {
-		hyfy_log("Loading files into memory..");
 		if(routes[i].type == RT_STATIC) {
-			hyfy_log(routes[i].static_content_source);
 			if(routes_load_static_file(routes[i].static_content_source, &routes[i].static_content) < 0)
 				hyfy_error("Failed loading file, exiting");
 		}
@@ -48,9 +46,7 @@ int routes_load_static_file(const char *filename, char **result) {
 }
 
 int routes_match(struct http_request* request, struct route **active_route) {
-	hyfy_log("In routes match...");
 	for(int i = 0; i < NO_OF_ROUTES; i++) {
-		printf("Comparing %s with %s\n", request->request_path, routes[i].request_string );
 		if(strcmp(request->request_path, routes[i].request_string) == 0) {
 			*active_route = &routes[i];
 			return 1;
