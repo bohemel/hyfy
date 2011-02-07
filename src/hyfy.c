@@ -47,7 +47,7 @@ void dispatch_request(int socket_fd) {
 
 	struct route *active_route;
 	if(routes_match(&request, &active_route) == 0) {
-		printf("Warning: 404 on %s\n", request.request_path);
+		printf("Warning: 404 on %s\n", request.path);
 		http_response_send("404 Not Found", "text/plain", &request, "Resource not found");
 	}
 	else {
@@ -55,12 +55,12 @@ void dispatch_request(int socket_fd) {
 			printf("Log: Found static route %s\n", active_route->static_content_source);
 			http_response_send("200 OK", active_route->content_type, &request, active_route->static_content);
 		}
-		if(active_route->type == RT_DYNAMIC) {
-			printf("Log: Found dynamic route %s\n", active_route->static_content_source);
+		else if(active_route->type == RT_DYNAMIC) {
+			printf("Log: Found dynamic route %s\n", active_route->request_string);
 			(*active_route->callback)(&request);
 		}
 		else {
-			printf("Warning: Request method not implemented\n");
+			printf("Warning: Request method not implemented dumping request\n");
 			http_response_send("503 Not Implemented", "text/plain", &request, "Method not implemented");
 		}
 	}

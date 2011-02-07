@@ -5,7 +5,8 @@
 
 struct http_request {
 	enum HttpMethod {METHOD_GET, METHOD_POST} method;
-	char request_path[MAX_REQUEST_PATH_LENGTH];
+	char path[MAX_REQUEST_PATH_LENGTH];
+	char query[MAX_REQUEST_PATH_LENGTH];
 	int socket_fd;
 };
 

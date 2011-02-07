@@ -50,8 +50,8 @@ int routes_load_static_file(const char *filename, char **result) {
 
 int routes_match(struct http_request* request, struct route **active_route) {
 	for(int i = 0; i < NO_OF_ROUTES; i++) {
-//		printf("Comparing \"%s\" with \"%s\"\n", request->request_path, routes[i].request_string);
-		if(strcmp(request->request_path, routes[i].request_string) == 0) {
+		printf("Comparing \"%s\" with \"%s\"\n", request->path, routes[i].request_string);
+		if(strcmp(request->path, routes[i].request_string) == 0) {
 			*active_route = &routes[i];
 			return 1;
 		}
